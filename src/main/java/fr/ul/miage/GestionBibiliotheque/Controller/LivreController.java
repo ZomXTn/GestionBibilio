@@ -19,7 +19,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 
 @RestController
-@RequestMapping(consumes = "/livres")
+@RequestMapping(value = "/livres")
 public class LivreController {
 
     @Autowired

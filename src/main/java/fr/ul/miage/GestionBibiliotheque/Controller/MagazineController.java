@@ -19,7 +19,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 
 @RestController
-@RequestMapping(consumes = "/magazines")
+@RequestMapping(value = "/magazines")
 public class MagazineController {
     @Autowired
     MagazineRepository magazineRepository ;

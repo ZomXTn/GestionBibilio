@@ -15,7 +15,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @DiscriminatorValue("MAGAZINE")
-public class Magazine {
+public class Magazine extends Oeuvre{
 
     @NotBlank
     private int numVolume; 

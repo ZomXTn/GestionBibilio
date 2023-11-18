@@ -1,6 +1,5 @@
 package fr.ul.miage.GestionBibiliotheque.Model;
 
-import java.util.UUID;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,12 +23,12 @@ public class Exemplaire {
     private String state;
     @ManyToOne
     @JoinColumn(name = "oeuvre_id")
-    private UUID oeuvre_id;
+    private Oeuvre oeuvre;
     
 
-    public Exemplaire(int id, String state, UUID oeuvre_id){
+    public Exemplaire(int id, String state, Oeuvre oeuvre){
         this.id = id;
         this.state = state;
-        this.oeuvre_id = oeuvre_id;
+        this.oeuvre = oeuvre;
     }
 }
