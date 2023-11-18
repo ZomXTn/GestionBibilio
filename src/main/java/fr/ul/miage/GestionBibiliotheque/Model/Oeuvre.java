@@ -1,5 +1,7 @@
 package fr.ul.miage.GestionBibiliotheque.Model;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,7 +29,10 @@ import lombok.Setter;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type_oeuvre", discriminatorType = DiscriminatorType.STRING)
-public class Oeuvre {
+public class Oeuvre implements Serializable{
+
+    @Serial // pour la persistence entre les JVMs
+    private static final long serialVersionUID = 135658465368461L;
 
     @Id
 	@GeneratedValue(strategy = GenerationType.UUID)
