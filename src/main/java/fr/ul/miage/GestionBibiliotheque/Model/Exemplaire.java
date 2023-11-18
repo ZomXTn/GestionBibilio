@@ -7,13 +7,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
@@ -21,15 +18,17 @@ import lombok.Setter;
 public class Exemplaire {
 
     @Id
-    @NotNull
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    @NotNull
     private String state;
     @ManyToOne
-    @JoinColumn(name = "livre_id")
-    private Livre livre;
-    @ManyToOne
-    @JoinColumn(name = "magazine_id")
-    private Magazine magazine;
+    @JoinColumn(name = "oeuvre_id")
+    private Oeuvre oeuvre;
+    
+
+    public Exemplaire(int id, String state, Oeuvre oeuvre){
+        this.id = id;
+        this.state = state;
+        this.oeuvre = oeuvre;
+    }
 }

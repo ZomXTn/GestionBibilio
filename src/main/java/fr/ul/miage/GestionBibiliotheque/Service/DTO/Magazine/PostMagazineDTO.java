@@ -29,6 +29,12 @@ public class PostMagazineDTO {
     
     public Magazine toEntity(){
         Magazine magazine = new Magazine();
+        magazine.setTitre(this.titre);
+        magazine.setEditeur(this.editeur);
+        magazine.setPeriodicite(this.periodicite);
+        magazine.setNumVolume(this.numVolume);
+        magazine.setListeExemplaires(new ArrayList<>());
+        magazine.setDatePublication(datePublication);
         return magazine;
     }
 

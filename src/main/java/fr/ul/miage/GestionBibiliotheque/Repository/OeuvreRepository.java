@@ -4,8 +4,9 @@ import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import fr.ul.miage.GestionBibiliotheque.Model.Livre;
+import fr.ul.miage.GestionBibiliotheque.Model.Oeuvre;
 
-public interface LivreRepository extends JpaRepository<Livre,UUID>{
+public interface OeuvreRepository extends JpaRepository<Oeuvre, UUID>{
+
     
-}
+} 
