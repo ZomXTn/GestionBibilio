@@ -11,30 +11,40 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 @Data
 public class PostMagazineDTO {
 
     @NotBlank(message = "le titre ne doit pas etre vide")
-    String titre;
+    private String titre;
     @NotBlank(message = "l'editeur ne doit pas etre vide")
-    String editeur;
+    private String editeur;
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
-    Date datePublication;
-    @Min(value = 1, message = "le numéro de volume doit etre au minimum 1")
-    int numVolume;
+    private Date datePublication;
+    @NotBlank
+    @Pattern(regexp = "^\\d{4}-\\d{3}(\\d|X)$")
+    private String issn; 
+
+    @NotNull
+    @Min(value = 1, message = "minimum 1")
+    private int numVolume; 
+
+    @NotNull
     @Enumerated(EnumType.STRING)
-    EnumPeriodicite periodicite;
+	private EnumPeriodicite periodicite;
     
     public Magazine toEntity(){
         Magazine magazine = new Magazine();
         magazine.setTitre(this.titre);
         magazine.setEditeur(this.editeur);
-        magazine.setPeriodicite(this.periodicite);
+        magazine.setDatePublication(datePublication);
+        magazine.setIssn(this.issn);
         magazine.setNumVolume(this.numVolume);
         magazine.setListeExemplaires(new ArrayList<>());
-        magazine.setDatePublication(datePublication);
+        magazine.setPeriodicite(this.periodicite);
         return magazine;
     }
 
