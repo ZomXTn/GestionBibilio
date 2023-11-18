@@ -1,0 +1,25 @@
+version:  0.0.1
+services:
+  biblio-app: 
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8085:8085"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:h2:file:/var/lib/h2-db/data/bibiliotheque
+      - SPRING_DATASOURCE_USERNAME=admin_lucas_rayene
+      - SPRING_DATASOURCE_PASSWORD=lucas_rayene_2024
+      - SPRING_H2_CONSOLE_ENABLED=true
+    networks:
+      - isolated_bibilio_nw
+    volumes:
+      - h2-data:/var/lib/h2-db/data
+
+networks:
+  isolated_bibilio_nw : 
+    driver: bridge
+
+volumes:
+  h2-data:
+    driver: local
