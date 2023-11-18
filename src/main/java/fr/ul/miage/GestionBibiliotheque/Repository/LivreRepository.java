@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import fr.ul.miage.GestionBibiliotheque.Model.Livre;
 
-public interface LivreRepository extends JpaRepository<Livre,UUID>{
-    
+public interface LivreRepository extends JpaRepository<Livre,String>{
+    void deleteByIsbn(String isbn);
 }

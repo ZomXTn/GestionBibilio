@@ -1,9 +1,12 @@
 package fr.ul.miage.GestionBibiliotheque.Controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import jakarta.ws.rs.Consumes;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,13 +34,21 @@ public class LivreController {
     }
 
     @PostMapping
-    public Livre createLivre(@RequestBody @Valid Livre livre){
+    public Livre createLivre(@RequestBody @Valid LivreInput livreInput){
+        Livre livre = new Livre(
+                livreInput.getIsbn(),
+                livreInput.getTitre(),
+                Integer.parseInt(livreInput.getNbPages()),
+                livreInput.getAuteur(),
+                livreInput.getDatePublication(),
+                new ArrayList<>()
+        );
         return this.livresRepository.save(livre);
     }
 
     @DeleteMapping
-    public ResponseEntity<String> deleteLivre(@RequestParam @NotBlank UUID id){
-        this.livresRepository.deleteById(id);
+    public ResponseEntity<String> deleteLivre(@RequestParam @NotBlank String isbn){
+        this.livresRepository.deleteByIsbn(isbn);
         return ResponseEntity.ok("Livre supprimé avec succès");
     }
 }

@@ -42,8 +42,8 @@ public class MagazineController {
 
     @DeleteMapping
     @ResponseStatus(value = HttpStatus.OK)
-    public ResponseEntity<String> deleteMagazine(@RequestParam @NotBlank UUID id){
-        this.magazineRepository.deleteById(id);
+    public ResponseEntity<String> deleteMagazine(@RequestParam @NotBlank String issn){
+        this.magazineRepository.deleteByIssn(issn);
         return ResponseEntity.ok("Magazine Supprimé avec succès");
     }
 }
