@@ -3,7 +3,10 @@ package fr.ul.miage.GestionBibiliotheque.Model;
 import fr.ul.miage.GestionBibiliotheque.Utilitary.EnumPeriodicite;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,9 +20,10 @@ import lombok.Setter;
 @DiscriminatorValue("MAGAZINE")
 public class Magazine extends Oeuvre{
 
-    @NotBlank
+    @Min(value = 1, message = "minimum 1")
     private int numVolume; 
 
-    @NotBlank
+    @NotNull
+    @Enumerated(EnumType.STRING)
 	private EnumPeriodicite periodicite;
 }

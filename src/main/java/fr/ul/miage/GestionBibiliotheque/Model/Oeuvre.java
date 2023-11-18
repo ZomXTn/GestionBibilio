@@ -16,6 +16,7 @@ import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -40,7 +41,7 @@ public class Oeuvre {
     @OneToMany(mappedBy = "oeuvre", cascade = CascadeType.ALL, orphanRemoval = true)    
     private List<Exemplaire> listeExemplaires; 
     
-    @NotBlank
+    @NotNull
     private Date datePublication;
 
     public Oeuvre(String titre, String editeur, Date datePublication){
