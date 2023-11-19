@@ -34,10 +34,9 @@ public class Magazine extends Oeuvre{
     @NotNull
     @Min(value = 1, message = "minimum 1")
     private int numVolume;
+
     @NotNull
     @Enumerated(EnumType.STRING)
 	private EnumPeriodicite periodicite;
-    @NotNull
-    @OneToMany(mappedBy = "magazine", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Exemplaire> listeExemplaires = new ArrayList<>();
+
 }

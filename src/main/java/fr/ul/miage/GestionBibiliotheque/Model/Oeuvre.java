@@ -11,6 +11,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.DiscriminatorType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -45,7 +46,7 @@ public class Oeuvre implements Serializable{
 
     @NotBlank
     private String editeur;
-    @OneToMany(mappedBy = "oeuvre", cascade = CascadeType.ALL, orphanRemoval = true)    
+    @OneToMany(mappedBy = "oeuvre", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)    
     private List<Exemplaire> listeExemplaires; 
     
     @NotNull

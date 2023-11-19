@@ -1,5 +1,6 @@
 package fr.ul.miage.GestionBibiliotheque.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class ExemplaireService {
     private ExemplaireRepository exemplaireRepository;
 
     public Exemplaire createExemplaire(UUID oeuvreID){
-        Oeuvre oeuvre = oeuvreRepository.getReferenceById(oeuvreID);
+        Oeuvre oeuvre = oeuvreRepository.findById(oeuvreID).orElseThrow();;
         Exemplaire exemplaire = new Exemplaire(EnumDisponibilite.EN_RAYON, oeuvre);
         return exemplaireRepository.save(exemplaire);
     }

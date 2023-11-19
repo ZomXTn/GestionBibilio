@@ -59,8 +59,6 @@ public class LivreController {
         return exemplaireService.createExemplaire(oeuvreID);
     }
 
-    
-
     @DeleteMapping
     public ResponseEntity<String> deleteLivre(@RequestParam @NotBlank UUID id){
         this.livresRepository.deleteById(id);
