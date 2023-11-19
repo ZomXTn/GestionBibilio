@@ -17,6 +17,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -32,6 +33,7 @@ import lombok.Setter;
 public class Oeuvre implements Serializable{
 
     @Serial // pour la persistence entre les JVMs
+    @Transient
     private static final long serialVersionUID = 135658465368461L;
 
     @Id
