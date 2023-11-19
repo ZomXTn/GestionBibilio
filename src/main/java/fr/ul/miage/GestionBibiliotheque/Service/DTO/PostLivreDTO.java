@@ -1,8 +1,9 @@
-package fr.ul.miage.GestionBibiliotheque.Service.DTO.Livre;
+package fr.ul.miage.GestionBibiliotheque.Service.DTO;
 
 import java.util.ArrayList;
 import java.util.Date;
 
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import fr.ul.miage.GestionBibiliotheque.Model.Livre;
@@ -15,18 +16,20 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class PostLivreDTO {
 
-    @NotBlank(message = "le titre ne doit pas etre vide")
+    @NotBlank
+    @Pattern(regexp = "^(?:(?:\\d{9}[\\dXx])|\\d{13})$")
+    private String isbn;
+    @NotBlank
     private String titre;
-    @NotBlank(message = "l'editeur ne doit pas etre vide")
+    @NotBlank
     private String editeur;
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date datePublication;
-    @Pattern(regexp = "^(?:(?:\\d{9}[\\dXx])|\\d{13})$")
-    @NotBlank
-    private String isbn;
+    @NotNull
     @Positive
     private int nbPages;
     @NotBlank
@@ -39,8 +42,9 @@ public class PostLivreDTO {
         livre.setDatePublication(this.datePublication);
         livre.setIsbn(this.isbn);
         livre.setNbPages(this.nbPages);
-        livre.setAuteur(this.auteur); 
+        livre.setAuteur(this.auteur);
         livre.setListeExemplaires(new ArrayList<>());
+        livre.setListeReservations(new ArrayList<>());
         return livre;
     }
 

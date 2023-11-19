@@ -1,7 +1,7 @@
 package fr.ul.miage.GestionBibiliotheque.Utilitary;
 
 public enum EnumPeriodicite {
-    DAILY, 
+    DAILY,
     WEEKLY,
     MONTHLY,
     YEARLY

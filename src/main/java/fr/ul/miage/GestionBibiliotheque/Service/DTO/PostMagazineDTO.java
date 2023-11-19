@@ -1,8 +1,10 @@
-package fr.ul.miage.GestionBibiliotheque.Service.DTO.Magazine;
+package fr.ul.miage.GestionBibiliotheque.Service.DTO;
 
 import java.util.ArrayList;
 import java.util.Date;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import fr.ul.miage.GestionBibiliotheque.Model.Magazine;
@@ -16,22 +18,23 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class PostMagazineDTO {
 
-    @NotBlank(message = "le titre ne doit pas etre vide")
-    private String titre;
-    @NotBlank(message = "l'editeur ne doit pas etre vide")
-    private String editeur;
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
-    private Date datePublication;
     @NotBlank
     @Pattern(regexp = "^\\d{4}-\\d{3}(\\d|X)$")
-    private String issn; 
-
+    private String issn;
+    @NotBlank
+    private String titre;
+    @NotBlank
+    private String editeur;
     @NotNull
-    @Min(value = 1, message = "minimum 1")
-    private int numVolume; 
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
+    private Date datePublication;
+    @NotNull
+    @Min(value = 1)
+    private int numVolume;
     @NotNull
     @Enumerated(EnumType.STRING)
 	private EnumPeriodicite periodicite;
@@ -43,8 +46,9 @@ public class PostMagazineDTO {
         magazine.setDatePublication(datePublication);
         magazine.setIssn(this.issn);
         magazine.setNumVolume(this.numVolume);
-        magazine.setListeExemplaires(new ArrayList<>());
         magazine.setPeriodicite(this.periodicite);
+        magazine.setListeExemplaires(new ArrayList<>());
+        magazine.setListeReservations(new ArrayList<>());
         return magazine;
     }
 

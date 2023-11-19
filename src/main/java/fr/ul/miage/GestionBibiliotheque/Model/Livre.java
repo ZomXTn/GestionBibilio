@@ -19,14 +19,7 @@ import lombok.Setter;
 @DiscriminatorValue("LIVRE")
 public class Livre extends Oeuvre {
 
-    @Pattern(regexp = "^(?:(?:\\d{9}[\\dXx])|\\d{13})$")
-    @NotBlank
     private String isbn;
-
-    @NotNull
-    @Positive
     private int nbPages;
-    
-    @NotBlank
     private String auteur;
 }

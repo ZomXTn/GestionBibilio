@@ -3,24 +3,19 @@ package fr.ul.miage.GestionBibiliotheque.Model;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import fr.ul.miage.GestionBibiliotheque.Utilitary.EnumDisponibilite;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Transient;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -30,18 +25,20 @@ public class Exemplaire implements Serializable {
     @Transient
     private static final long serialVersionUID = 135658465368461L;
 
+    //Attributs
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @Enumerated(EnumType.STRING)
     private EnumDisponibilite disponibilite;
+
+    //Jointures
     @ManyToOne
     @JoinColumn(name = "oeuvre_id")
     @JsonIgnore
     private Oeuvre oeuvre;
-    
-    public Exemplaire(EnumDisponibilite disponibilite, Oeuvre oeuvre){
-        this.disponibilite = disponibilite;
-        this.oeuvre = oeuvre;
-    }
+    @OneToMany(mappedBy = "exemplaire", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JsonIgnore
+    private List<Emprunt> listeEmprunts;
+
 }

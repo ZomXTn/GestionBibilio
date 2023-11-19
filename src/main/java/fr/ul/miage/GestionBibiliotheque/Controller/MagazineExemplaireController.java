@@ -1,8 +1,11 @@
 package fr.ul.miage.GestionBibiliotheque.Controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import fr.ul.miage.GestionBibiliotheque.Repository.ExemplaireRepository;
+import fr.ul.miage.GestionBibiliotheque.Utilitary.EnumDisponibilite;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,24 +22,30 @@ import org.springframework.web.bind.annotation.RestController;
 import fr.ul.miage.GestionBibiliotheque.Model.Exemplaire;
 import fr.ul.miage.GestionBibiliotheque.Model.Magazine;
 import fr.ul.miage.GestionBibiliotheque.Repository.MagazineRepository;
-import fr.ul.miage.GestionBibiliotheque.Service.ExemplaireService;
-import fr.ul.miage.GestionBibiliotheque.Service.DTO.Magazine.PostMagazineDTO;
+import fr.ul.miage.GestionBibiliotheque.Service.DTO.PostMagazineDTO;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 
 @RestController
 @RequestMapping(value = "/magazines")
-public class MagazineController {
+public class MagazineExemplaireController {
     @Autowired
     MagazineRepository magazineRepository ;
 
     @Autowired
-    ExemplaireService exemplaireService;
+    ExemplaireRepository exemplaireRepository;
 
     @GetMapping("/")
     @ResponseStatus(value = HttpStatus.OK)
     public List<Magazine> getAllMagazine(){
         return this.magazineRepository.findAll();
+    }
+
+
+    @GetMapping(value = "/{oeuvreID}/")
+    @ResponseStatus(value = HttpStatus.OK)
+    public Magazine getMagazineById(@PathVariable("oeuvreID") UUID oeuvreID){
+        return this.magazineRepository.findById(oeuvreID).orElseThrow();
     }
 
     @GetMapping(value = "/{oeuvreID}/exemplaires")
@@ -61,6 +70,10 @@ public class MagazineController {
     @PostMapping(value = "/{oeuvreID}/exemplaire")
     @ResponseStatus(value = HttpStatus.CREATED)
     public Exemplaire createNewExemplaire(@PathVariable("oeuvreID") UUID oeuvreID){
-        return exemplaireService.createExemplaire(oeuvreID);
+        Exemplaire exemplaire = new Exemplaire();
+        exemplaire.setDisponibilite(EnumDisponibilite.EN_RAYON);
+        exemplaire.setOeuvre(magazineRepository.getReferenceById(oeuvreID));
+        exemplaire.setListeEmprunts(new ArrayList<>());
+        return exemplaireRepository.save(exemplaire);
     }
 }

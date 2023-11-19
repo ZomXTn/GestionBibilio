@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.DiscriminatorType;
@@ -21,42 +22,37 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type_oeuvre", discriminatorType = DiscriminatorType.STRING)
-public class Oeuvre implements Serializable{
+public class Oeuvre implements Serializable {
 
     @Serial // pour la persistence entre les JVMs
     @Transient
     private static final long serialVersionUID = 135658465368461L;
 
+    //Attributs
     @Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
-
-    @NotBlank
 	private String titre;
-
-    @NotBlank
     private String editeur;
-    @OneToMany(mappedBy = "oeuvre", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)    
-    private List<Exemplaire> listeExemplaires; 
-    
-    @NotNull
     private Date datePublication;
 
-    public Oeuvre(String titre, String editeur, Date datePublication){
-        this.titre = titre;
-        this.listeExemplaires = new ArrayList<>();
-        this.editeur = editeur;
-        this.datePublication = datePublication;
-    }
+    //Jointures
+    @OneToMany(mappedBy = "oeuvre", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<Exemplaire> listeExemplaires;
+    @OneToMany(mappedBy = "oeuvre", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JsonIgnore
+    private List<Reservation> listeReservations;
 
 }
