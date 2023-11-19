@@ -33,10 +33,16 @@ public class MagazineController {
     @Autowired
     ExemplaireService exemplaireService;
 
-    @GetMapping
+    @GetMapping("/")
     @ResponseStatus(value = HttpStatus.OK)
     public List<Magazine> getAllMagazine(){
         return this.magazineRepository.findAll();
+    }
+
+    @GetMapping(value = "/{oeuvreID}/exemplaires")
+    @ResponseStatus(value = HttpStatus.OK)
+    public List<Exemplaire> getExemplaireOfMagazine(@PathVariable("oeuvreID") UUID oeuvreID){
+        return magazineRepository.getReferenceById(oeuvreID).getListeExemplaires();
     }
 
     @PostMapping(value = "/")

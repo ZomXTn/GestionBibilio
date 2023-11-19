@@ -5,7 +5,6 @@ import java.io.Serial;
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import fr.ul.miage.GestionBibiliotheque.Utilitary.EnumDisponibilite;
 import jakarta.persistence.Entity;
@@ -41,7 +40,6 @@ public class Exemplaire implements Serializable {
     @JsonIgnore
     private Oeuvre oeuvre;
     
-
     public Exemplaire(EnumDisponibilite disponibilite, Oeuvre oeuvre){
         this.disponibilite = disponibilite;
         this.oeuvre = oeuvre;

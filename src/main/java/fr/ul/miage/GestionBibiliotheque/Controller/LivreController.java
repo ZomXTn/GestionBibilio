@@ -34,16 +34,16 @@ public class LivreController {
     @Autowired
     ExemplaireService exemplaireService;
 
-    @GetMapping
+    @GetMapping(value = "/")
     @ResponseStatus(value = HttpStatus.OK)
     public List<Livre> getAllLives(){
         return this.livresRepository.findAll();
     }
 
-    @PostMapping(value = "/{oeuvreID}/exemplaire")
-    @ResponseStatus(value = HttpStatus.CREATED)
-    public Exemplaire createNewExemplaire(@PathVariable("oeuvreID") UUID oeuvreID){
-        return exemplaireService.createExemplaire(oeuvreID);
+    @GetMapping(value = "/{oeuvreID}/exemplaires")
+    @ResponseStatus(value = HttpStatus.OK)
+    public List<Exemplaire> getExemplaireOfLivre(@PathVariable("oeuvreID") UUID oeuvreID){
+        return livresRepository.getReferenceById(oeuvreID).getListeExemplaires();
     }
 
     @PostMapping(value= "/")
@@ -52,6 +52,14 @@ public class LivreController {
         Livre livre = livreDTO.toEntity();
         return this.livresRepository.save(livre);
     }
+
+    @PostMapping(value = "/{oeuvreID}/exemplaire")
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public Exemplaire createNewExemplaire(@PathVariable("oeuvreID") UUID oeuvreID){
+        return exemplaireService.createExemplaire(oeuvreID);
+    }
+
+    
 
     @DeleteMapping
     public ResponseEntity<String> deleteLivre(@RequestParam @NotBlank UUID id){
