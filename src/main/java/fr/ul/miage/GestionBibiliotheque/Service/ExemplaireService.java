@@ -40,13 +40,19 @@ public class ExemplaireService {
     ReservationRepository reservationRepository;
 
     @Autowired
-    MagazineRepository oeuvreRepository;
+    MagazineRepository magazineRepository;
 
     @Autowired
     LivreRepository livreRepository;
 
-    public List<Exemplaire> getExemplairesOfOeuvre(@PathVariable("oeuvreID") UUID oeuvreID) {
-        return oeuvreRepository.findById(oeuvreID)
+    public List<Exemplaire> getExemplairesOfOeuvreMagazine(@PathVariable("oeuvreID") UUID oeuvreID) {
+        return magazineRepository.findById(oeuvreID)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Oeuvre n'existe pas"))
+                .getListeExemplaires();
+    }
+
+    public List<Exemplaire> getExemplairesOfOeuvreLivre(@PathVariable("oeuvreID") UUID oeuvreID) {
+        return livreRepository.findById(oeuvreID)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Oeuvre n'existe pas"))
                 .getListeExemplaires();
     }
@@ -63,7 +69,7 @@ public class ExemplaireService {
 
     public Exemplaire createNewExemplaireMagazine(@PathVariable("oeuvreID") UUID oeuvreID) {
         Exemplaire exemplaire = new Exemplaire();
-        Magazine oeuvre = oeuvreRepository.findById(oeuvreID)
+        Magazine oeuvre = magazineRepository.findById(oeuvreID)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Magazine n'existe pas"));
         exemplaire.setDisponibilite(EnumDisponibilite.EN_RAYON);
         exemplaire.setOeuvre(oeuvre);

@@ -49,7 +49,7 @@ public class MagazineExemplaireController {
     @GetMapping(value = "/{oeuvreID}/exemplaires")
     @ResponseStatus(value = HttpStatus.OK)
     public List<Exemplaire> getExemplaireOfMagazine(@PathVariable("oeuvreID") UUID oeuvreID){
-        return exemplaireService.getExemplairesOfOeuvre(oeuvreID);
+        return exemplaireService.getExemplairesOfOeuvreMagazine(oeuvreID);
     }
 
     @PostMapping(value = "/")

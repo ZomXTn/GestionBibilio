@@ -57,13 +57,13 @@ public class LivreExemplaireController {
         return livreService.deleteLivre(id);
     }
 
-    @GetMapping(value = "/{oeuvreID}/exemplaires")
+    @GetMapping(value = "/{oeuvreID}/exemplaires/")
     @ResponseStatus(value = HttpStatus.OK)
     public List<Exemplaire> getExemplaireOfLivre(@PathVariable("oeuvreID") UUID oeuvreID){
-        return exemplaireService.getExemplairesOfOeuvre(oeuvreID);
+        return exemplaireService.getExemplairesOfOeuvreLivre(oeuvreID);
     }
 
-    @PostMapping(value = "/{oeuvreID}/exemplaire")
+    @PostMapping(value = "/{oeuvreID}/exemplaire/")
     @ResponseStatus(value = HttpStatus.CREATED)
     public Exemplaire createNewExemplaire(@PathVariable("oeuvreID") UUID oeuvreID){
         return exemplaireService.createNewExemplaireLivre(oeuvreID);
