@@ -1,7 +1,5 @@
 package fr.ul.miage.GestionBibiliotheque.Model;
 
-import fr.ul.miage.GestionBibiliotheque.Model.Emprunt;
-import fr.ul.miage.GestionBibiliotheque.Model.Reservation;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +8,8 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @NoArgsConstructor
 @Getter
@@ -27,8 +27,10 @@ public class Usager implements Serializable {
     private String adresse;
 
     //Jointures
+    @JsonIgnore
     @OneToMany(mappedBy = "usager", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Emprunt> listeEmprunts;
+    @JsonIgnore
     @OneToMany(mappedBy = "usager", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Reservation> listeReservations;
 }

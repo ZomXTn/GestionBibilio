@@ -1,6 +1,5 @@
 package fr.ul.miage.GestionBibiliotheque.Model;
 
-import fr.ul.miage.GestionBibiliotheque.Model.Usager;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -10,21 +9,23 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@DiscriminatorValue("RESERVATION")
 public class Reservation implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date dateDebut;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
     private Date dateFin;
     @ManyToOne
     @JoinColumn(name = "usager_id")
-    @JsonIgnore
     private Usager usager;
     @ManyToOne
     @JoinColumn(name = "oeuvre_id")

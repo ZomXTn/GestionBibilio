@@ -1,6 +1,5 @@
 package fr.ul.miage.GestionBibiliotheque.Model;
 
-import fr.ul.miage.GestionBibiliotheque.Model.Usager;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -15,7 +14,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@DiscriminatorValue("EMPRUNT")
 public class Emprunt implements Serializable {
 
     @Id
@@ -25,7 +23,6 @@ public class Emprunt implements Serializable {
     private Date dateFin;
     @ManyToOne
     @JoinColumn(name = "usager_id")
-    @JsonIgnore
     private Usager usager;
     @ManyToOne
     @JoinColumn(name = "exemplaire_id")

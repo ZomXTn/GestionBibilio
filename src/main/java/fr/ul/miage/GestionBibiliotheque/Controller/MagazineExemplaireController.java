@@ -1,11 +1,8 @@
 package fr.ul.miage.GestionBibiliotheque.Controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import fr.ul.miage.GestionBibiliotheque.Repository.ExemplaireRepository;
-import fr.ul.miage.GestionBibiliotheque.Utilitary.EnumDisponibilite;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fr.ul.miage.GestionBibiliotheque.Model.Exemplaire;
 import fr.ul.miage.GestionBibiliotheque.Model.Magazine;
-import fr.ul.miage.GestionBibiliotheque.Repository.MagazineRepository;
+import fr.ul.miage.GestionBibiliotheque.Service.ExemplaireService;
+import fr.ul.miage.GestionBibiliotheque.Service.MagazineService;
 import fr.ul.miage.GestionBibiliotheque.Service.DTO.PostMagazineDTO;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -30,50 +28,45 @@ import jakarta.validation.constraints.NotBlank;
 @RequestMapping(value = "/magazines")
 public class MagazineExemplaireController {
     @Autowired
-    MagazineRepository magazineRepository ;
+    MagazineService magazineService ;
 
     @Autowired
-    ExemplaireRepository exemplaireRepository;
+    ExemplaireService exemplaireService;
 
     @GetMapping("/")
     @ResponseStatus(value = HttpStatus.OK)
     public List<Magazine> getAllMagazine(){
-        return this.magazineRepository.findAll();
+        return magazineService.getAllMagazines();
     }
 
 
     @GetMapping(value = "/{oeuvreID}/")
     @ResponseStatus(value = HttpStatus.OK)
     public Magazine getMagazineById(@PathVariable("oeuvreID") UUID oeuvreID){
-        return this.magazineRepository.findById(oeuvreID).orElseThrow();
+        return magazineService.getMagazineById(oeuvreID);
     }
 
     @GetMapping(value = "/{oeuvreID}/exemplaires")
     @ResponseStatus(value = HttpStatus.OK)
     public List<Exemplaire> getExemplaireOfMagazine(@PathVariable("oeuvreID") UUID oeuvreID){
-        return magazineRepository.getReferenceById(oeuvreID).getListeExemplaires();
+        return exemplaireService.getExemplairesOfOeuvre(oeuvreID);
     }
 
     @PostMapping(value = "/")
     @ResponseStatus(value = HttpStatus.CREATED)
     public Magazine createMagazine(@RequestBody @Valid PostMagazineDTO magazineDTO){
-        return this.magazineRepository.save(magazineDTO.toEntity());
+        return magazineService.createMagazine(magazineDTO);
     }
 
     @DeleteMapping
     @ResponseStatus(value = HttpStatus.OK)
     public ResponseEntity<String> deleteMagazine(@RequestParam @NotBlank UUID id){
-        this.magazineRepository.deleteById(id);
-        return ResponseEntity.ok("Magazine Supprimé avec succès");
+        return magazineService.deleteMagazine(id);
     }
 
     @PostMapping(value = "/{oeuvreID}/exemplaire")
     @ResponseStatus(value = HttpStatus.CREATED)
     public Exemplaire createNewExemplaire(@PathVariable("oeuvreID") UUID oeuvreID){
-        Exemplaire exemplaire = new Exemplaire();
-        exemplaire.setDisponibilite(EnumDisponibilite.EN_RAYON);
-        exemplaire.setOeuvre(magazineRepository.getReferenceById(oeuvreID));
-        exemplaire.setListeEmprunts(new ArrayList<>());
-        return exemplaireRepository.save(exemplaire);
+        return exemplaireService.createNewExemplaireMagazine(oeuvreID);
     }
 }
