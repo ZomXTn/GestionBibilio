@@ -5,9 +5,12 @@ import fr.ul.miage.GestionBibiliotheque.Service.ExemplaireService;
 import fr.ul.miage.GestionBibiliotheque.Service.UsagerService;
 import fr.ul.miage.GestionBibiliotheque.Service.DTO.PostUsagerDTO;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -15,6 +18,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/usagers")
 public class UsagerEmpruntReservationController {
 
@@ -44,6 +48,12 @@ public class UsagerEmpruntReservationController {
         return usagerService.findUsagerById(usagerID);
     }
 
+    @DeleteMapping(value = "/{userID}/")
+    @ResponseStatus(value = HttpStatus.OK)
+    public ResponseEntity<String> deleteMagazine(@PathVariable("userID") @NotBlank UUID id){
+        return usagerService.deleteUsager(id);
+    }
+
     /*
      * EMPRUNTS
      */
@@ -71,8 +81,8 @@ public class UsagerEmpruntReservationController {
     /*
      * RESERVATIONS
      */
-    @PostMapping(value = "/{usagerID}/reservation/{oeuvreID}")
-    @ResponseStatus(value = HttpStatus.CREATED)
+    @PostMapping(value = "/{usagerID}/reservation/{oeuvreID}/")
+    @ResponseStatus(value = HttpStatus.CREATED ,reason = "Réservation crée avec succès")
     public Reservation createNewReservation(@PathVariable("usagerID") UUID usagerID,
             @PathVariable("oeuvreID") UUID oeuvreID) {
         return usagerService.createNewReservation(usagerID, oeuvreID);

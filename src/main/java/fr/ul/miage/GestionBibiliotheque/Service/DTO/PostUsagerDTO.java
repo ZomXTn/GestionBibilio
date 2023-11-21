@@ -1,6 +1,7 @@
 package fr.ul.miage.GestionBibiliotheque.Service.DTO;
 
 import fr.ul.miage.GestionBibiliotheque.Model.Usager;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 public class PostUsagerDTO {
 
         @NotBlank
+        @Email(message = "Format email invalide")
         private String email;
         @NotBlank
         private String nom;

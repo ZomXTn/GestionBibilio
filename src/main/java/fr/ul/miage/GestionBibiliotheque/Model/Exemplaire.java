@@ -27,7 +27,7 @@ public class Exemplaire implements Serializable {
 
     //Attributs
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Enumerated(EnumType.STRING)
     private EnumDisponibilite disponibilite;
@@ -35,7 +35,6 @@ public class Exemplaire implements Serializable {
     //Jointures
     @ManyToOne
     @JoinColumn(name = "oeuvre_id")
-    @JsonIgnore
     private Oeuvre oeuvre;
     @OneToMany(mappedBy = "exemplaire", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonIgnore

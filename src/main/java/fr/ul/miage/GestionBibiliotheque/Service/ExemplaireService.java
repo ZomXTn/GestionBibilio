@@ -92,4 +92,11 @@ public class ExemplaireService {
         return empruntRepository.save(emprunt);
     }
 
+    public Exemplaire detruireMagazine(UUID oeuvreID, int exemplaireID) {
+        Exemplaire exemplaire = exemplaireRepository.findById(exemplaireID)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Exemplaire n'existe pas"));
+        exemplaire.setDisponibilite(EnumDisponibilite.MIS_DE_CÔTÉ);
+        return exemplaireRepository.save(exemplaire);
+    }
+
 }
